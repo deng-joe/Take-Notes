@@ -1,7 +1,7 @@
 package com.joey.takenotes.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.joey.takenotes.R
 
 class MainActivity : AppCompatActivity() {
