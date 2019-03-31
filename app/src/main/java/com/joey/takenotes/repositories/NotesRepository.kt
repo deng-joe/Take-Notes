@@ -25,6 +25,6 @@ class NotesRepository(private val notesDao: NotesDao) {
 
     @WorkerThread
     fun deleteAllNotes() {
-        notesDao.getAllNotes()
+        notesDao.deleteAllNotes()
     }
 }

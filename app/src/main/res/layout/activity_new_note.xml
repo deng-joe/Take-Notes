@@ -6,13 +6,6 @@
     android:orientation="vertical"
     tools:context=".ui.NewNoteActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize" />
-
     <EditText
         android:id="@+id/title"
         android:layout_width="match_parent"

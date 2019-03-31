@@ -10,11 +10,11 @@ import com.joey.takenotes.R
 import com.joey.takenotes.db.Notes
 
 class NotesAdapter internal constructor(context: Context) : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
-    private val inlfater: LayoutInflater = LayoutInflater.from(context)
+    private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var notes = emptyList<Notes>()  // Cached copy of notes
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesViewHolder {
-        val itemView = inlfater.inflate(R.layout.model, parent, false)
+        val itemView = inflater.inflate(R.layout.model, parent, false)
         return NotesViewHolder(itemView)
     }
 

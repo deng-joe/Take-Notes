@@ -2,16 +2,15 @@ package com.joey.takenotes.ui
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.joey.takenotes.R
 import es.dmoral.toasty.Toasty
-import kotlinx.android.synthetic.main.activity_new_note.*
 
 class NewNoteActivity : AppCompatActivity() {
     private lateinit var editTitle: EditText
@@ -30,11 +29,11 @@ class NewNoteActivity : AppCompatActivity() {
     private fun setBarTitle() {
         val intent = intent
         if (intent.hasExtra(EXTRA_ID)) {
-            toolbar.title = "Edit Note"
+            supportActionBar?.title = "Edit Note"
             editTitle.setText(intent.getStringExtra(EXTRA_TITLE))
             editBody.setText(intent.getStringExtra(EXTRA_BODY))
         } else {
-            toolbar.title = "Add Note"
+            supportActionBar?.title = "Add Note"
         }
     }
 
