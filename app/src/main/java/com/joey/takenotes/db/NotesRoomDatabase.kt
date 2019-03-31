@@ -1,5 +1,6 @@
 package com.joey.takenotes.db
 
+import MIGRATION_1_2
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
@@ -25,6 +26,7 @@ abstract class NotesRoomDatabase : RoomDatabase() {
                     NotesRoomDatabase::class.java,
                     "notes_database"
                 )
+                    .addMigrations(MIGRATION_1_2)
                     .build()
                 INSTANCE = instance
                 return instance
