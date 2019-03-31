@@ -23,7 +23,7 @@ class NotesAdapter internal constructor(context: Context) : RecyclerView.Adapter
     override fun onBindViewHolder(holder: NotesViewHolder, position: Int) {
         val currentNote = notes[position]
         holder.title.text = currentNote.title
-        holder.body.text = currentNote.text
+        holder.body.text = currentNote.body
     }
 
     fun displayNotes(notes: List<Notes>) {
