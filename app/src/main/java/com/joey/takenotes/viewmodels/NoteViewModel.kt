@@ -3,22 +3,22 @@ package com.joey.takenotes.viewmodels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import com.joey.takenotes.db.Notes
-import com.joey.takenotes.db.NotesRoomDatabase
-import com.joey.takenotes.repositories.NotesRepository
+import com.joey.takenotes.db.NoteEntity
+import com.joey.takenotes.db.NoteRoomDatabase
+import com.joey.takenotes.repositories.NoteRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-class NotesViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository: NotesRepository
-    val allNotes: LiveData<List<Notes>> // Cache a copy of notes
+class NoteViewModel(application: Application) : AndroidViewModel(application) {
+    private val repository: NoteRepository
+    val allNotes: LiveData<List<NoteEntity>> // Cache a copy of notes
 
     init {
-        val notesDao = NotesRoomDatabase.getInstance(application).notesDao()
-        repository = NotesRepository(notesDao)
+        val noteDao = NoteRoomDatabase.getInstance(application).noteDao()
+        repository = NoteRepository(noteDao)
         allNotes = repository.allNotes
     }
 
@@ -27,16 +27,16 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
         get() = job + Dispatchers.Main
     private val scope = CoroutineScope(coroutineContext)
 
-    fun insert(notes: Notes) = scope.launch(Dispatchers.IO) {
-        repository.insert(notes)
+    fun insert(note: NoteEntity) = scope.launch(Dispatchers.IO) {
+        repository.insert(note)
     }
 
-    fun update(notes: Notes) = scope.launch(Dispatchers.IO) {
-        repository.update(notes)
+    fun update(note: NoteEntity) = scope.launch(Dispatchers.IO) {
+        repository.update(note)
     }
 
-    fun delete(notes: Notes) = scope.launch(Dispatchers.IO) {
-        repository.delete(notes)
+    fun delete(note: NoteEntity) = scope.launch(Dispatchers.IO) {
+        repository.delete(note)
     }
 
     fun deleteAllNotes() = scope.launch(Dispatchers.IO) {

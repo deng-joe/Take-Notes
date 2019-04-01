@@ -42,7 +42,7 @@ class NewNoteActivity : AppCompatActivity() {
         val noteBody = editBody.text.toString()
 
         if (TextUtils.isEmpty(noteTitle) || TextUtils.isEmpty(noteBody)) {
-            Toasty.info(this, "Please leave no field empty.", Toast.LENGTH_SHORT).show()
+            Toasty.error(this, "Please leave no field empty.", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -63,16 +63,14 @@ class NewNoteActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item != null) {
-            if (item.itemId == R.id.save) {
-                saveNote()
-                return true
-            } else if (item.itemId == R.id.discard) {
-                Toasty.info(this, "Note discarded.", Toast.LENGTH_SHORT).show()
-                onBackPressed()
-                return true
-            }
+        if (item?.itemId == R.id.save) {
+            saveNote()
+            return true
+        } else if (item?.itemId == R.id.discard) {
+            onBackPressed()
+            return true
         }
+
         return super.onOptionsItemSelected(item)
     }
 

@@ -6,16 +6,16 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Notes::class], version = 1, exportSchema = false)
-abstract class NotesRoomDatabase : RoomDatabase() {
+@Database(entities = [NoteEntity::class], version = 1, exportSchema = false)
+abstract class NoteRoomDatabase : RoomDatabase() {
 
-    abstract fun notesDao(): NotesDao
+    abstract fun noteDao(): NoteDao
 
     companion object {
         @Volatile
-        var INSTANCE: NotesRoomDatabase? = null
+        var INSTANCE: NoteRoomDatabase? = null
 
-        fun getInstance(context: Context): NotesRoomDatabase {
+        fun getInstance(context: Context): NoteRoomDatabase {
             val temp = INSTANCE
             if (temp != null) {
                 return temp
@@ -23,10 +23,10 @@ abstract class NotesRoomDatabase : RoomDatabase() {
             synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    NotesRoomDatabase::class.java,
+                    NoteRoomDatabase::class.java,
                     "notes_database"
                 )
-                    .addMigrations(MIGRATION_1_2)
+                    .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
                 return instance
