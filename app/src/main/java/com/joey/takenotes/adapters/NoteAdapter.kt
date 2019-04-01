@@ -31,6 +31,13 @@ class NoteAdapter internal constructor(context: Context) : RecyclerView.Adapter<
                 listener.onItemClick(notes[holder.adapterPosition])
             }
         }
+
+        holder.itemView.setOnLongClickListener {
+            if (position != RecyclerView.NO_POSITION) {
+                listener.onItemLongClick(notes[holder.adapterPosition])
+            }
+            true
+        }
     }
 
     fun displayNotes(notes: List<NoteEntity>) {
@@ -46,6 +53,10 @@ class NoteAdapter internal constructor(context: Context) : RecyclerView.Adapter<
 
     interface NotesClickListener {
         fun onItemClick(note: NoteEntity) {
+
+        }
+
+        fun onItemLongClick(note: NoteEntity) {
 
         }
     }

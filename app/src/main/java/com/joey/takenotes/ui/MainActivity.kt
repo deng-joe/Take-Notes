@@ -62,6 +62,20 @@ class MainActivity : AppCompatActivity() {
                 intent.putExtra(NewNoteActivity.EXTRA_BODY, note.body)
                 startActivityForResult(intent, RC_EDIT_NOTE)
             }
+
+            override fun onItemLongClick(note: NoteEntity) {
+                super.onItemLongClick(note)
+                val builder = AlertDialog.Builder(this@MainActivity)
+                builder.setMessage("Delete this note?")
+                builder.setNegativeButton("No") { dialogInterface, _ ->
+                    dialogInterface.dismiss()
+                }
+                builder.setPositiveButton("Yes") { _, _ ->
+                    noteViewModel.delete(note)
+                    Toasty.success(this@MainActivity, "Note deleted.", Toast.LENGTH_SHORT).show()
+                }
+                builder.show()
+            }
         })
 
     }
