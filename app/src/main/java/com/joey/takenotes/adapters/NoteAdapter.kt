@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.joey.takenotes.R
-import com.joey.takenotes.db.NoteEntity
+import com.joey.takenotes.db.Note
 
 class NoteAdapter internal constructor(context: Context) : RecyclerView.Adapter<NoteAdapter.NotesViewHolder>() {
-    private val inflater= LayoutInflater.from(context)
-    private var notes = emptyList<NoteEntity>()  // Cached copy of notes
+    private val inflater = LayoutInflater.from(context)
+    private var notes = emptyList<Note>()  // Cached copy of notes
     private lateinit var listener: NotesClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesViewHolder {
@@ -40,7 +40,7 @@ class NoteAdapter internal constructor(context: Context) : RecyclerView.Adapter<
         }
     }
 
-    fun displayNotes(notes: List<NoteEntity>) {
+    fun displayNotes(notes: List<Note>) {
         this.notes = notes
         notifyDataSetChanged()
     }
@@ -52,11 +52,11 @@ class NoteAdapter internal constructor(context: Context) : RecyclerView.Adapter<
     }
 
     interface NotesClickListener {
-        fun onItemClick(note: NoteEntity) {
+        fun onItemClick(note: Note) {
 
         }
 
-        fun onItemLongClick(note: NoteEntity) {
+        fun onItemLongClick(note: Note) {
 
         }
     }

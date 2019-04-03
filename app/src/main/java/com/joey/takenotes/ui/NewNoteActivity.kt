@@ -50,8 +50,10 @@ class NewNoteActivity : AppCompatActivity() {
         intent.putExtra(EXTRA_TITLE, noteTitle)
         intent.putExtra(EXTRA_BODY, noteBody)
 
-        val id = 0
-        intent.putExtra(EXTRA_ID, id)
+        val id = getIntent().getIntExtra(EXTRA_ID, -1)
+        if (id != -1) {
+            intent.putExtra(EXTRA_ID, id)
+        }
 
         setResult(Activity.RESULT_OK, intent)
         finish()

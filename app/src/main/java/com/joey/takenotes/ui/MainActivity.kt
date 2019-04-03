@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.joey.takenotes.R
 import com.joey.takenotes.adapters.NoteAdapter
-import com.joey.takenotes.db.NoteEntity
+import com.joey.takenotes.db.Note
 import com.joey.takenotes.viewmodels.NoteViewModel
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_main.*
@@ -54,8 +54,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         noteAdapter.itemClickListener(object : NoteAdapter.NotesClickListener {
-            override fun onItemClick(note: NoteEntity) {
-                super.onItemClick(note)
+            override fun onItemClick(note: Note) {
                 val intent = Intent(this@MainActivity, NewNoteActivity::class.java)
                 intent.putExtra(NewNoteActivity.EXTRA_ID, note.id)
                 intent.putExtra(NewNoteActivity.EXTRA_TITLE, note.title)
@@ -63,8 +62,7 @@ class MainActivity : AppCompatActivity() {
                 startActivityForResult(intent, RC_EDIT_NOTE)
             }
 
-            override fun onItemLongClick(note: NoteEntity) {
-                super.onItemLongClick(note)
+            override fun onItemLongClick(note: Note) {
                 val builder = AlertDialog.Builder(this@MainActivity)
                 builder.setMessage("Delete this note?")
                 builder.setNegativeButton("No") { dialogInterface, _ ->
@@ -117,19 +115,21 @@ class MainActivity : AppCompatActivity() {
 
         if (requestCode == RC_ADD_NOTE && resultCode == Activity.RESULT_OK) {
             data?.let {
-                val note = NoteEntity(
-                    it.getStringExtra(NewNoteActivity.EXTRA_TITLE),
-                    it.getStringExtra(NewNoteActivity.EXTRA_BODY)
-                )
+                val note =
+                    Note(it.getStringExtra(NewNoteActivity.EXTRA_TITLE), it.getStringExtra(NewNoteActivity.EXTRA_BODY))
                 noteViewModel.insert(note)
                 Toasty.success(this, "Note saved.", Toast.LENGTH_SHORT).show()
             }
         } else if (requestCode == RC_EDIT_NOTE && resultCode == Activity.RESULT_OK) {
             data?.let {
-                val note = NoteEntity(
-                    it.getStringExtra(NewNoteActivity.EXTRA_TITLE),
-                    it.getStringExtra(NewNoteActivity.EXTRA_BODY)
-                )
+                val id = it.getIntExtra(NewNoteActivity.EXTRA_ID, -1)
+                if (id == -1) {
+                    Toasty.error(this, "Failed to update note.", Toast.LENGTH_SHORT).show()
+                    return
+                }
+                val note =
+                    Note(it.getStringExtra(NewNoteActivity.EXTRA_TITLE), it.getStringExtra(NewNoteActivity.EXTRA_BODY))
+                note.id
                 noteViewModel.update(note)
                 Toasty.success(this, "Note updated.", Toast.LENGTH_SHORT).show()
             }

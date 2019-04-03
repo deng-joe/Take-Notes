@@ -12,8 +12,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/title"
         android:inputType="textShortMessage"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
         tools:ignore="Autofill" />
 
     <EditText
@@ -24,7 +23,7 @@
         android:gravity="top"
         android:hint="@string/note"
         android:inputType="textMultiLine|textLongMessage"
-        android:textSize="17sp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         tools:ignore="Autofill" />
 
 </LinearLayout>

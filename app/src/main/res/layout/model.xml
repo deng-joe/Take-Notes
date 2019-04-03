@@ -12,8 +12,7 @@
         android:ellipsize="end"
         android:hint="@string/title"
         android:maxLines="1"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <TextView
         android:id="@+id/bodyView"
@@ -22,6 +21,6 @@
         android:ellipsize="end"
         android:hint="@string/note"
         android:maxLines="4"
-        android:textSize="17sp" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 </LinearLayout>
