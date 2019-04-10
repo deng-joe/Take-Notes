@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.joey.takenotes.R
 import com.joey.takenotes.db.Note
+import com.joey.takenotes.utils.DateConverter
+import java.util.*
 
 class NoteAdapter internal constructor(context: Context) : RecyclerView.Adapter<NoteAdapter.NotesViewHolder>() {
     private val inflater = LayoutInflater.from(context)
@@ -25,6 +27,7 @@ class NoteAdapter internal constructor(context: Context) : RecyclerView.Adapter<
         val currentNote = notes[position]
         holder.title.text = currentNote.title
         holder.body.text = currentNote.body
+        holder.moment.text = DateConverter.dateFormat(currentNote.date)
 
         holder.itemView.setOnClickListener {
             if (position != RecyclerView.NO_POSITION) {
@@ -49,6 +52,7 @@ class NoteAdapter internal constructor(context: Context) : RecyclerView.Adapter<
     inner class NotesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.titleView)
         val body: TextView = itemView.findViewById(R.id.bodyView)
+        val moment: TextView = itemView.findViewById(R.id.dateTime)
     }
 
     interface NotesClickListener {

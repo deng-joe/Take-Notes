@@ -18,6 +18,7 @@ import com.joey.takenotes.db.Note
 import com.joey.takenotes.viewmodels.NoteViewModel
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var noteViewModel: NoteViewModel
@@ -109,10 +110,13 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        val createdOn: Date = Calendar.getInstance().time
+
         if (requestCode == RC_ADD_NOTE && resultCode == Activity.RESULT_OK) {
             val note = Note(
                 data!!.getStringExtra(NewNoteActivity.EXTRA_TITLE),
-                data.getStringExtra(NewNoteActivity.EXTRA_BODY)
+                data.getStringExtra(NewNoteActivity.EXTRA_BODY),
+                createdOn
             )
             noteViewModel.insert(note)
             Toasty.success(this, "Note saved.", Toast.LENGTH_SHORT).show()
@@ -124,7 +128,8 @@ class MainActivity : AppCompatActivity() {
             }
             val note = Note(
                 data!!.getStringExtra(NewNoteActivity.EXTRA_TITLE),
-                data.getStringExtra(NewNoteActivity.EXTRA_BODY)
+                data.getStringExtra(NewNoteActivity.EXTRA_BODY),
+                createdOn
             )
             note.id = data.getIntExtra(NewNoteActivity.EXTRA_ID, -1)
             noteViewModel.update(note)

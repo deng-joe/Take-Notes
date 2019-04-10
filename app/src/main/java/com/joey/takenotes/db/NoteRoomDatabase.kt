@@ -4,8 +4,11 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.joey.takenotes.utils.DateConverter
 
 @Database(entities = [Note::class], version = 1, exportSchema = false)
+@TypeConverters(DateConverter::class)
 abstract class NoteRoomDatabase : RoomDatabase() {
 
     abstract fun noteDao(): NoteDao

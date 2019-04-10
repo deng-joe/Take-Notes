@@ -23,7 +23,7 @@
         android:gravity="top"
         android:hint="@string/note"
         android:inputType="textMultiLine|textLongMessage"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         tools:ignore="Autofill" />
 
 </LinearLayout>
