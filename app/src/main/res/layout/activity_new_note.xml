@@ -21,7 +21,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="top"
-        android:hint="@string/note"
+        android:hint="@string/content"
         android:inputType="textMultiLine|textLongMessage"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         tools:ignore="Autofill" />
