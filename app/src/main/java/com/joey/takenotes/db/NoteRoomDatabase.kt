@@ -34,5 +34,9 @@ abstract class NoteRoomDatabase : RoomDatabase() {
                 return instance
             }
         }
+
+        fun destroyInstance() {
+            INSTANCE = null
+        }
     }
 }
