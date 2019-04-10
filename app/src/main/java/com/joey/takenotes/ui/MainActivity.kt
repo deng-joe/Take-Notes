@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.joey.takenotes.R
 import com.joey.takenotes.adapters.NoteAdapter
@@ -37,20 +36,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initUI() {
-        val recyclerView = findViewById<RecyclerView>(R.id.notes_view)
         noteAdapter = NoteAdapter(this)
-        recyclerView.adapter = noteAdapter
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        notes_view.adapter = noteAdapter
+        notes_view.layoutManager = LinearLayoutManager(this)
 
         // Get a new or existing ViewModel from the ViewModelProviders
         noteViewModel = ViewModelProviders.of(this).get(NoteViewModel::class.java)
 
         // Add an Observer class on the LiveData
-        noteViewModel.allNotes.observe(this, Observer { notes ->
+        noteViewModel.allNotes.observe(this, Observer<List<Note>> {
             // Update the cached copy of the notes in the adapter
-            notes?.let {
-                noteAdapter.displayNotes(it)
-            }
+            noteAdapter.displayNotes(it)
         })
 
         noteAdapter.itemClickListener(object : NoteAdapter.NotesClickListener {
@@ -114,25 +110,25 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == RC_ADD_NOTE && resultCode == Activity.RESULT_OK) {
-            data?.let {
-                val note =
-                    Note(it.getStringExtra(NewNoteActivity.EXTRA_TITLE), it.getStringExtra(NewNoteActivity.EXTRA_BODY))
-                noteViewModel.insert(note)
-                Toasty.success(this, "Note saved.", Toast.LENGTH_SHORT).show()
-            }
+            val note = Note(
+                data!!.getStringExtra(NewNoteActivity.EXTRA_TITLE),
+                data.getStringExtra(NewNoteActivity.EXTRA_BODY)
+            )
+            noteViewModel.insert(note)
+            Toasty.success(this, "Note saved.", Toast.LENGTH_SHORT).show()
         } else if (requestCode == RC_EDIT_NOTE && resultCode == Activity.RESULT_OK) {
-            data?.let {
-                val id = it.getIntExtra(NewNoteActivity.EXTRA_ID, -1)
-                if (id == -1) {
-                    Toasty.error(this, "Failed to update note.", Toast.LENGTH_SHORT).show()
-                    return
-                }
-                val note =
-                    Note(it.getStringExtra(NewNoteActivity.EXTRA_TITLE), it.getStringExtra(NewNoteActivity.EXTRA_BODY))
-                note.id
-                noteViewModel.update(note)
-                Toasty.success(this, "Note updated.", Toast.LENGTH_SHORT).show()
+            val noteId = data?.getIntExtra(NewNoteActivity.EXTRA_ID, -1)
+            if (noteId == -1) {
+                Toasty.error(this, "Failed to update note.", Toast.LENGTH_SHORT).show()
+                return
             }
+            val note = Note(
+                data!!.getStringExtra(NewNoteActivity.EXTRA_TITLE),
+                data.getStringExtra(NewNoteActivity.EXTRA_BODY)
+            )
+            note.id = data.getIntExtra(NewNoteActivity.EXTRA_ID, -1)
+            noteViewModel.update(note)
+            Toasty.success(this, "Note updated.", Toast.LENGTH_SHORT).show()
         }
     }
 

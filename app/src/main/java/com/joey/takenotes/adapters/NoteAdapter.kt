@@ -52,13 +52,9 @@ class NoteAdapter internal constructor(context: Context) : RecyclerView.Adapter<
     }
 
     interface NotesClickListener {
-        fun onItemClick(note: Note) {
+        fun onItemClick(note: Note)
 
-        }
-
-        fun onItemLongClick(note: Note) {
-
-        }
+        fun onItemLongClick(note: Note)
     }
 
     fun itemClickListener(listener: NotesClickListener) {

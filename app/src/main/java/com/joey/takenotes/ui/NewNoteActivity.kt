@@ -28,7 +28,7 @@ class NewNoteActivity : AppCompatActivity() {
 
     private fun setBarTitle() {
         val intent = intent
-        if (intent.hasExtra(EXTRA_ID)) {
+        if (intent != null && intent.hasExtra(EXTRA_ID)) {
             supportActionBar?.title = "Edit Note"
             editTitle.setText(intent.getStringExtra(EXTRA_TITLE))
             editBody.setText(intent.getStringExtra(EXTRA_BODY))
@@ -46,16 +46,16 @@ class NewNoteActivity : AppCompatActivity() {
             return
         }
 
-        val intent = Intent()
-        intent.putExtra(EXTRA_TITLE, noteTitle)
-        intent.putExtra(EXTRA_BODY, noteBody)
+        val data = Intent().apply {
+            putExtra(EXTRA_TITLE, noteTitle)
+            putExtra(EXTRA_BODY, noteBody)
 
-        val id = getIntent().getIntExtra(EXTRA_ID, -1)
-        if (id != -1) {
-            intent.putExtra(EXTRA_ID, id)
+            if (intent.getIntExtra(EXTRA_ID, -1) != -1) {
+                putExtra(EXTRA_ID, intent.getIntExtra(EXTRA_ID, -1))
+            }
         }
 
-        setResult(Activity.RESULT_OK, intent)
+        setResult(Activity.RESULT_OK, data)
         finish()
     }
 
