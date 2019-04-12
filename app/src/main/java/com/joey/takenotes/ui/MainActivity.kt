@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity() {
         if (item?.itemId == R.id.del) {
             if (noteAdapter.itemCount == 0) {
                 Snackbar.make(
-                    findViewById(android.R.id.content),
+                    findViewById(R.id.fab),
                     "There are no notes to delete.",
                     Snackbar.LENGTH_SHORT
                 ).show()
