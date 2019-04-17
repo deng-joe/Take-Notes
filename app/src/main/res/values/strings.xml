@@ -6,4 +6,6 @@
     <string name="delete_all">Delete all</string>
     <string name="save">Save</string>
     <string name="discard">Discard</string>
+    <string name="delete">Delete</string>
+    <string name="notes_not_available_yet">Notes not available yet</string>
 </resources>

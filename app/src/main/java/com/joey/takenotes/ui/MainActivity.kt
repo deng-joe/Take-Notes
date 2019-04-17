@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -46,9 +47,16 @@ class MainActivity : AppCompatActivity() {
         noteViewModel = ViewModelProviders.of(this).get(NoteViewModel::class.java)
 
         // Add an Observer class on the LiveData
-        noteViewModel.allNotes.observe(this, Observer<List<Note>> {
+        noteViewModel.allNotes.observe(this, Observer<List<Note>> { notes ->
             // Update the cached copy of the notes in the adapter
-            noteAdapter.displayNotes(it)
+            if (notes.isNotEmpty()) {
+                empty_view.visibility = View.GONE
+                notes_view.visibility = View.VISIBLE
+                noteAdapter.displayNotes(notes)
+            } else {
+                empty_view.visibility = View.VISIBLE
+                notes_view.visibility = View.GONE
+            }
         })
 
         noteAdapter.itemClickListener(object : NoteAdapter.NotesClickListener {
@@ -118,28 +126,30 @@ class MainActivity : AppCompatActivity() {
 
         val createdOn: Date = Calendar.getInstance().time
 
-        if (requestCode == RC_ADD_NOTE && resultCode == Activity.RESULT_OK) {
-            val note = Note(
-                data!!.getStringExtra(NewNoteActivity.EXTRA_TITLE),
-                data.getStringExtra(NewNoteActivity.EXTRA_BODY),
-                createdOn
-            )
-            noteViewModel.insert(note)
-            Toasty.success(this, "Note saved.", Toast.LENGTH_SHORT).show()
-        } else if (requestCode == RC_EDIT_NOTE && resultCode == Activity.RESULT_OK) {
-            val noteId = data?.getIntExtra(NewNoteActivity.EXTRA_ID, -1)
-            if (noteId == -1) {
-                Toasty.error(this, "Failed to update note.", Toast.LENGTH_SHORT).show()
-                return
+        if (data != null) {
+            if (requestCode == RC_ADD_NOTE && resultCode == Activity.RESULT_OK) {
+                val note = Note(
+                    data.getStringExtra(NewNoteActivity.EXTRA_TITLE),
+                    data.getStringExtra(NewNoteActivity.EXTRA_BODY),
+                    createdOn
+                )
+                noteViewModel.insert(note)
+                Toasty.success(this, "Note saved.", Toast.LENGTH_SHORT).show()
+            } else if (requestCode == RC_EDIT_NOTE && resultCode == Activity.RESULT_OK) {
+                val noteId = data.getIntExtra(NewNoteActivity.EXTRA_ID, -1)
+                if (noteId == -1) {
+                    Toasty.error(this, "Failed to update note.", Toast.LENGTH_SHORT).show()
+                    return
+                }
+                val note = Note(
+                    data.getStringExtra(NewNoteActivity.EXTRA_TITLE),
+                    data.getStringExtra(NewNoteActivity.EXTRA_BODY),
+                    createdOn
+                )
+                note.id = noteId
+                noteViewModel.update(note)
+                Toasty.success(this, "Note updated.", Toast.LENGTH_SHORT).show()
             }
-            val note = Note(
-                data!!.getStringExtra(NewNoteActivity.EXTRA_TITLE),
-                data.getStringExtra(NewNoteActivity.EXTRA_BODY),
-                createdOn
-            )
-            note.id = data.getIntExtra(NewNoteActivity.EXTRA_ID, -1)
-            noteViewModel.update(note)
-            Toasty.success(this, "Note updated.", Toast.LENGTH_SHORT).show()
         }
     }
 

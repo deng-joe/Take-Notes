@@ -1,5 +1,6 @@
 package com.joey.takenotes.db
 
+import MIGRATION_1_2
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
@@ -16,6 +17,7 @@ abstract class NoteRoomDatabase : RoomDatabase() {
     companion object {
         @Volatile
         var INSTANCE: NoteRoomDatabase? = null
+        var DATABASE_NAME = "notes_database"
 
         fun getInstance(context: Context): NoteRoomDatabase {
             val temp = INSTANCE
@@ -26,9 +28,9 @@ abstract class NoteRoomDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     NoteRoomDatabase::class.java,
-                    "notes_database"
+                    DATABASE_NAME
                 )
-                    .fallbackToDestructiveMigration()
+                    .addMigrations(MIGRATION_1_2)
                     .build()
                 INSTANCE = instance
                 return instance
