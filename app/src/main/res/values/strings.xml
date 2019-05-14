@@ -8,4 +8,6 @@
     <string name="discard">Discard</string>
     <string name="delete">Delete</string>
     <string name="notes_not_available_yet">Notes not available yet</string>
+    <string name="share">Share</string>
+    <string name="copy">Copy</string>
 </resources>

@@ -23,6 +23,9 @@
         android:gravity="top"
         android:hint="@string/content"
         android:inputType="textMultiLine|textLongMessage"
+        android:overScrollMode="ifContentScrolls"
+        android:scrollbarStyle="insideInset"
+        android:scrollbars="vertical"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         tools:ignore="Autofill" />
 
