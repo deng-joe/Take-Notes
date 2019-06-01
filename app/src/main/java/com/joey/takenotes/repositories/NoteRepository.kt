@@ -2,8 +2,8 @@ package com.joey.takenotes.repositories
 
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
-import com.joey.takenotes.db.Note
-import com.joey.takenotes.db.NoteDao
+import com.joey.takenotes.data.Note
+import com.joey.takenotes.data.NoteDao
 
 class NoteRepository(private val noteDao: NoteDao) {
     val allNotes: LiveData<List<Note>> = noteDao.getAllNotes()

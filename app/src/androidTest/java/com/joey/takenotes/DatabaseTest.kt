@@ -3,9 +3,9 @@ package com.joey.takenotes
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.joey.takenotes.db.Note
-import com.joey.takenotes.db.NoteDao
-import com.joey.takenotes.db.NoteRoomDatabase
+import com.joey.takenotes.data.Note
+import com.joey.takenotes.data.NoteDao
+import com.joey.takenotes.data.NoteRoomDatabase
 import org.junit.After
 import org.junit.Before
 import org.junit.Test

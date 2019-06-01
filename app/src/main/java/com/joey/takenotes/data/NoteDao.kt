@@ -1,4 +1,4 @@
-package com.joey.takenotes.db
+package com.joey.takenotes.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.*

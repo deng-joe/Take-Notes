@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.joey.takenotes.R
-import com.joey.takenotes.db.Note
+import com.joey.takenotes.data.Note
 import com.joey.takenotes.utils.DateConverter
 
 class NoteAdapter internal constructor(context: Context) : RecyclerView.Adapter<NoteAdapter.NotesViewHolder>() {

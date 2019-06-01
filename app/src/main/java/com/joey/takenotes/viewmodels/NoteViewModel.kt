@@ -3,8 +3,8 @@ package com.joey.takenotes.viewmodels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import com.joey.takenotes.db.Note
-import com.joey.takenotes.db.NoteRoomDatabase
+import com.joey.takenotes.data.Note
+import com.joey.takenotes.data.NoteRoomDatabase
 import com.joey.takenotes.repositories.NoteRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

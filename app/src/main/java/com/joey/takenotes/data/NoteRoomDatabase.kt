@@ -1,4 +1,4 @@
-package com.joey.takenotes.db
+package com.joey.takenotes.data
 
 import MIGRATION_1_2
 import android.content.Context

@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.joey.takenotes.R
 import com.joey.takenotes.adapters.NoteAdapter
-import com.joey.takenotes.db.Note
-import com.joey.takenotes.db.NoteRoomDatabase
+import com.joey.takenotes.data.Note
+import com.joey.takenotes.data.NoteRoomDatabase
 import com.joey.takenotes.viewmodels.NoteViewModel
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_main.*
