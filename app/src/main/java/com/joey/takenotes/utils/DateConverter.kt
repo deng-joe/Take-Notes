@@ -21,7 +21,7 @@ class DateConverter {
         }
 
         fun dateFormat(date: Date): String {
-            return DateFormat.format("dd MMM, yyyy    HH:mm", date) as String
+            return DateFormat.format("MMMM dd, yyyy    HH:mm", date) as String
         }
     }
 }
