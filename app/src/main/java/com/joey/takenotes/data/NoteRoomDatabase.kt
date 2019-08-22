@@ -1,6 +1,6 @@
 package com.joey.takenotes.data
 
-import MIGRATION_1_2
+import com.joey.takenotes.utils.MIGRATION_1_2
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
@@ -17,7 +17,7 @@ abstract class NoteRoomDatabase : RoomDatabase() {
     companion object {
         @Volatile
         var INSTANCE: NoteRoomDatabase? = null
-        var DATABASE_NAME = "notes_database"
+        private var DATABASE_NAME = "notes_database"
 
         fun getInstance(context: Context): NoteRoomDatabase {
             val temp = INSTANCE
