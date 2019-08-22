@@ -5,4 +5,10 @@
         android:id="@+id/del"
         android:title="@string/delete_all"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/ic_search"
+        android:title="@string/search_note"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView" />
 </menu>
