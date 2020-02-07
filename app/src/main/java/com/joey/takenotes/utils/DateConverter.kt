@@ -10,18 +10,13 @@ class DateConverter {
 
         @TypeConverter
         @JvmStatic
-        fun toDate(timestamp: Long?): Date? {
-            return if (timestamp == null) null else Date(timestamp)
-        }
+        fun toDate(timestamp: Long?) = if (timestamp == null) null else Date(timestamp)
 
         @TypeConverter
         @JvmStatic
-        fun toTimestamp(date: Date?): Long? {
-            return date?.time
-        }
+        fun toTimestamp(date: Date?) = date?.time
 
-        fun dateFormat(date: Date): String {
-            return DateFormat.format("MMMM dd, yyyy    HH:mm", date) as String
-        }
+        fun dateFormat(date: Date) = DateFormat.format("MMM dd, yyyy   HH:mm", date) as String
     }
+
 }

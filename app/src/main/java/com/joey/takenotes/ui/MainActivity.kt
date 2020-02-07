@@ -13,7 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.joey.takenotes.R
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         notes_view.layoutManager = LinearLayoutManager(this)
 
         // Get a new or existing ViewModel from the ViewModelProviders
-        noteViewModel = ViewModelProviders.of(this).get(NoteViewModel::class.java)
+        noteViewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
 
         // Add an Observer class on the LiveData
         noteViewModel.allNotes.observe(this, Observer<List<Note>> { notes ->
@@ -142,7 +142,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        return super.onOptionsItemSelected(item)
+        return super.onOptionsItemSelected(item!!)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -153,8 +153,8 @@ class MainActivity : AppCompatActivity() {
         if (data != null) {
             if (requestCode == RC_ADD_NOTE && resultCode == Activity.RESULT_OK) {
                 val note = Note(
-                    data.getStringExtra(NewNoteActivity.EXTRA_TITLE),
-                    data.getStringExtra(NewNoteActivity.EXTRA_BODY),
+                    data.getStringExtra(NewNoteActivity.EXTRA_TITLE)!!,
+                    data.getStringExtra(NewNoteActivity.EXTRA_BODY)!!,
                     createdOn
                 )
                 noteViewModel.insert(note)
@@ -166,8 +166,8 @@ class MainActivity : AppCompatActivity() {
                     return
                 }
                 val note = Note(
-                    data.getStringExtra(NewNoteActivity.EXTRA_TITLE),
-                    data.getStringExtra(NewNoteActivity.EXTRA_BODY),
+                    data.getStringExtra(NewNoteActivity.EXTRA_TITLE)!!,
+                    data.getStringExtra(NewNoteActivity.EXTRA_BODY)!!,
                     createdOn
                 )
                 note.id = noteId

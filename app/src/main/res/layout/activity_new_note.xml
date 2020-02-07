@@ -7,11 +7,11 @@
     tools:context=".ui.NewNoteActivity">
 
     <EditText
-        android:id="@+id/title"
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/title"
-        android:inputType="textShortMessage|textMultiLine"
+        android:inputType="textCapSentences"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         tools:ignore="Autofill" />
 
@@ -22,7 +22,7 @@
         android:layout_weight="1"
         android:gravity="top"
         android:hint="@string/content"
-        android:inputType="textMultiLine|textLongMessage"
+        android:inputType="textCapSentences|textMultiLine"
         android:overScrollMode="ifContentScrolls"
         android:scrollbarStyle="insideInset"
         android:scrollbars="vertical"

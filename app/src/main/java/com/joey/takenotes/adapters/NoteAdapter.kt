@@ -52,8 +52,8 @@ class NoteAdapter internal constructor(context: Context) :
             override fun performFiltering(constraint: CharSequence?): FilterResults {
 
                 val charString = constraint.toString()
-                if (charString.isEmpty()) {
-                    filteredNotes = notes
+                filteredNotes = if (charString.isEmpty()) {
+                    notes
                 } else {
                     val filteredList = arrayListOf<Note>()
                     for (row in notes) {
@@ -64,7 +64,7 @@ class NoteAdapter internal constructor(context: Context) :
                         )
                             filteredList.add(row)
                     }
-                    filteredNotes = filteredList
+                    filteredList
                 }
 
                 val results = FilterResults()

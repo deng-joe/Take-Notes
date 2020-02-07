@@ -12,32 +12,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/notes_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/notes_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:listitem="@layout/model" />
-
-            <TextView
-                android:id="@+id/empty_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:drawableTop="@drawable/ic_event_note"
-                android:gravity="center"
-                android:text="@string/notes_not_available_yet"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:visibility="gone" />
-
-        </LinearLayout>
+            tools:listitem="@layout/model" />
 
     </ScrollView>
+
+    <TextView
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawableTop="@drawable/ic_event_note"
+        android:gravity="center"
+        android:text="@string/notes_not_available_yet"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:visibility="gone" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

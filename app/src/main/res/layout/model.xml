@@ -33,7 +33,7 @@
             android:ellipsize="end"
             android:hint="@string/content"
             android:maxLines="10"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         <TextView
             android:id="@+id/dateTime"
@@ -41,6 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:ellipsize="end"
+            android:hint="@string/date_time"
             android:gravity="end"
             android:lines="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />

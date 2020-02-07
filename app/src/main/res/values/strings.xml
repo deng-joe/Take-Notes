@@ -11,4 +11,5 @@
     <string name="share">Share</string>
     <string name="copy">Copy</string>
     <string name="search_note">Search note</string>
+    <string name="date_time"><![CDATA[Date & time]]></string>
 </resources>
