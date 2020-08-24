@@ -47,6 +47,7 @@ class NoteAdapter internal constructor(context: Context) :
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
@@ -85,8 +86,7 @@ class NoteAdapter internal constructor(context: Context) :
         notifyDataSetChanged()
     }
 
-
-    inner class NotesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class NotesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.titleView)
         val body: TextView = itemView.findViewById(R.id.bodyView)
         val moment: TextView = itemView.findViewById(R.id.dateTime)

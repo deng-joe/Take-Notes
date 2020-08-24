@@ -2,14 +2,10 @@
     <string name="app_name">Take Notes</string>
     <string name="title">Title</string>
     <string name="content">Content</string>
-    <string name="no_notes">No notes</string>
     <string name="delete_all">Delete all</string>
     <string name="save">Save</string>
     <string name="discard">Discard</string>
-    <string name="delete">Delete</string>
     <string name="notes_not_available_yet">Notes not available yet</string>
-    <string name="share">Share</string>
-    <string name="copy">Copy</string>
     <string name="search_note">Search note</string>
     <string name="date_time"><![CDATA[Date & time]]></string>
 </resources>

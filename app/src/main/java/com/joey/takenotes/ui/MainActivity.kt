@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -50,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         noteViewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
 
         // Add an Observer class on the LiveData
-        noteViewModel.allNotes.observe(this, Observer<List<Note>> { notes ->
+        noteViewModel.allNotes.observe(this, { notes ->
             // Update the cached copy of the notes in the adapter
             if (notes.isNotEmpty()) {
                 empty_view.visibility = View.GONE

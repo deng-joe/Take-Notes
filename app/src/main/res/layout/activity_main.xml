@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ebebeb"
     android:fitsSystemWindows="true"
     tools:context=".ui.MainActivity">
 
@@ -25,11 +24,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:drawableTop="@drawable/ic_event_note"
         android:gravity="center"
         android:text="@string/notes_not_available_yet"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:drawableTopCompat="@drawable/ic_event_note" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
