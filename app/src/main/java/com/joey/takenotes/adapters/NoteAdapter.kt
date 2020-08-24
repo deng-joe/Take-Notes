@@ -6,19 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.joey.takenotes.R
 import com.joey.takenotes.data.Note
-import com.joey.takenotes.utils.DateConverter
+import kotlinx.android.synthetic.main.model.view.*
 import java.util.*
 
-class NoteAdapter internal constructor(context: Context) :
+class NoteAdapter internal constructor(
+    context: Context,
+    private val itemClickListener: (Note) -> Unit
+) :
     RecyclerView.Adapter<NoteAdapter.NotesViewHolder>(), Filterable {
     private val inflater = LayoutInflater.from(context)
     private var notes = emptyList<Note>()  // Cached copy of notes
     private var filteredNotes = emptyList<Note>()
-    private lateinit var listener: NotesClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesViewHolder {
         val itemView = inflater.inflate(R.layout.model, parent, false)
@@ -27,25 +28,8 @@ class NoteAdapter internal constructor(context: Context) :
 
     override fun getItemCount() = filteredNotes.size
 
-    override fun onBindViewHolder(holder: NotesViewHolder, position: Int) {
-        val currentNote = filteredNotes[position]
-        holder.title.text = currentNote.title
-        holder.body.text = currentNote.body
-        holder.moment.text = DateConverter.dateFormat(currentNote.date)
-
-        holder.itemView.setOnClickListener {
-            if (position != RecyclerView.NO_POSITION) {
-                listener.onItemClick(filteredNotes[holder.adapterPosition])
-            }
-        }
-
-        holder.itemView.setOnLongClickListener {
-            if (position != RecyclerView.NO_POSITION) {
-                listener.onItemLongClick(filteredNotes[holder.adapterPosition])
-            }
-            true
-        }
-    }
+    override fun onBindViewHolder(holder: NotesViewHolder, position: Int) =
+        holder.bind(filteredNotes[position])
 
     @Suppress("UNCHECKED_CAST")
     override fun getFilter(): Filter {
@@ -86,19 +70,18 @@ class NoteAdapter internal constructor(context: Context) :
         notifyDataSetChanged()
     }
 
-    class NotesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val title: TextView = itemView.findViewById(R.id.titleView)
-        val body: TextView = itemView.findViewById(R.id.bodyView)
-        val moment: TextView = itemView.findViewById(R.id.dateTime)
-    }
+    inner class NotesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    interface NotesClickListener {
-        fun onItemClick(note: Note)
+        fun bind(note: Note) {
+            itemView.titleView.text = note.title
+            itemView.bodyView.text = note.body
+            itemView.dateTime.text = note.date.toString()
 
-        fun onItemLongClick(note: Note)
-    }
+            itemView.setOnClickListener {
+                itemClickListener(filteredNotes[adapterPosition])
+            }
 
-    fun itemClickListener(listener: NotesClickListener) {
-        this.listener = listener
+            itemView.setOnLongClickListener { true }
+        }
     }
 }

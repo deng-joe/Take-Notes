@@ -28,6 +28,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var noteViewModel: NoteViewModel
     private lateinit var noteAdapter: NoteAdapter
 
+    private val onItemClickListener: (Note) -> Unit = { note ->
+        val intent = Intent(this, NewNoteActivity::class.java)
+        intent.putExtra(NewNoteActivity.EXTRA_ID, note.id)
+        intent.putExtra(NewNoteActivity.EXTRA_TITLE, note.title)
+        intent.putExtra(NewNoteActivity.EXTRA_BODY, note.body)
+        startActivityForResult(intent, RC_EDIT_NOTE)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -37,11 +45,11 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(intent, RC_ADD_NOTE)
         }
 
-        initUI()
+        initViews()
     }
 
-    private fun initUI() {
-        noteAdapter = NoteAdapter(this)
+    private fun initViews() {
+        noteAdapter = NoteAdapter(this, onItemClickListener)
         notes_view.adapter = noteAdapter
         notes_view.layoutManager = LinearLayoutManager(this)
 
@@ -60,30 +68,6 @@ class MainActivity : AppCompatActivity() {
                 notes_view.visibility = View.GONE
             }
         })
-
-        noteAdapter.itemClickListener(object : NoteAdapter.NotesClickListener {
-            override fun onItemClick(note: Note) {
-                val intent = Intent(this@MainActivity, NewNoteActivity::class.java)
-                intent.putExtra(NewNoteActivity.EXTRA_ID, note.id)
-                intent.putExtra(NewNoteActivity.EXTRA_TITLE, note.title)
-                intent.putExtra(NewNoteActivity.EXTRA_BODY, note.body)
-                startActivityForResult(intent, RC_EDIT_NOTE)
-            }
-
-            override fun onItemLongClick(note: Note) {
-                val builder = AlertDialog.Builder(this@MainActivity)
-                builder.setMessage("Delete this note?")
-                builder.setNegativeButton("No") { dialogInterface, _ ->
-                    dialogInterface.dismiss()
-                }
-                builder.setPositiveButton("Yes") { _, _ ->
-                    noteViewModel.delete(note)
-                    Toasty.success(this@MainActivity, "Note deleted.", Toast.LENGTH_SHORT).show()
-                }
-                builder.show()
-            }
-        })
-
     }
 
     override fun onDestroy() {
