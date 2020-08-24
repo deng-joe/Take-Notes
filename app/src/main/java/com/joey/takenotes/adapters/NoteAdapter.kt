@@ -9,6 +9,7 @@ import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.joey.takenotes.R
 import com.joey.takenotes.data.Note
+import com.joey.takenotes.utils.DateConverter
 import kotlinx.android.synthetic.main.model.view.*
 import java.util.*
 
@@ -75,7 +76,7 @@ class NoteAdapter internal constructor(
         fun bind(note: Note) {
             itemView.titleView.text = note.title
             itemView.bodyView.text = note.body
-            itemView.dateTime.text = note.date.toString()
+            itemView.dateTime.text = DateConverter.dateFormat(note.date)
 
             itemView.setOnClickListener {
                 itemClickListener(filteredNotes[adapterPosition])
