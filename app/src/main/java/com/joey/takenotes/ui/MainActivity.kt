@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity(), SwipeToDeleteCallback.NoteItemTouchHel
         val searchItem = menu?.findItem(R.id.search)
         val searchView = searchItem?.actionView as SearchView
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        searchView.queryHint = "Search your notes"
+        searchView.queryHint = getString(R.string.search_notes)
         searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
         searchView.maxWidth = Int.MAX_VALUE
 
@@ -118,19 +118,19 @@ class MainActivity : AppCompatActivity(), SwipeToDeleteCallback.NoteItemTouchHel
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.del) {
             if (noteAdapter.itemCount == 0) {
-                Toasty.info(this, "There are no notes to delete.", Toast.LENGTH_SHORT).show()
+                Toasty.info(this, getString(R.string.no_notes_to_delete), Toast.LENGTH_SHORT).show()
                 return false
             }
 
             AlertDialog.Builder(this)
-                .setMessage("Delete all notes?")
+                .setMessage(getString(R.string.confirmation))
                 .setCancelable(false)
-                .setPositiveButton("OK") { _, _ ->
+                .setPositiveButton(android.R.string.ok) { _, _ ->
                     noteViewModel.deleteAllNotes()
                     noteAdapter.clearData()
-                    Toasty.success(this, "All notes deleted.", Toast.LENGTH_SHORT).show()
+                    Toasty.success(this, getString(R.string.all_notes_deleted), Toast.LENGTH_SHORT).show()
                 }
-                .setNegativeButton("Cancel") { dialog, _ ->
+                .setNegativeButton(android.R.string.cancel) { dialog, _ ->
                     dialog.dismiss()
                 }
                 .show()
@@ -153,11 +153,11 @@ class MainActivity : AppCompatActivity(), SwipeToDeleteCallback.NoteItemTouchHel
                     createdOn
                 )
                 noteViewModel.insert(note)
-                Toasty.success(this, "Note saved.", Toast.LENGTH_SHORT).show()
+                Toasty.success(this, getString(R.string.saved), Toast.LENGTH_SHORT).show()
             } else if (requestCode == RC_EDIT_NOTE && resultCode == Activity.RESULT_OK) {
                 val noteId = data.getIntExtra(NewNoteActivity.EXTRA_ID, -1)
                 if (noteId == -1) {
-                    Toasty.error(this, "Failed to update note.", Toast.LENGTH_SHORT).show()
+                    Toasty.error(this, getString(R.string.update_failed), Toast.LENGTH_SHORT).show()
                     return
                 }
                 val note = Note(
@@ -167,7 +167,7 @@ class MainActivity : AppCompatActivity(), SwipeToDeleteCallback.NoteItemTouchHel
                 )
                 note.id = noteId
                 noteViewModel.update(note)
-                Toasty.success(this, "Note updated.", Toast.LENGTH_SHORT).show()
+                Toasty.success(this, getString(R.string.updated), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -183,8 +183,8 @@ class MainActivity : AppCompatActivity(), SwipeToDeleteCallback.NoteItemTouchHel
             noteAdapter.removeNote(viewHolder.adapterPosition)
 
             // Show Snackbar with option to undo note removal
-            Snackbar.make(coordinator, "Note deleted.", Snackbar.LENGTH_LONG)
-                .setAction("Undo") {
+            Snackbar.make(coordinator, getString(R.string.deleted), Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.undo)) {
                     // Restore the deleted note
                     noteAdapter.restoreNote(deletedNote, deletedIndex)
                 }

@@ -24,11 +24,11 @@ class NewNoteActivity : AppCompatActivity() {
     private fun setBarTitle() {
         val intent = intent
         if (intent != null && intent.hasExtra(EXTRA_ID)) {
-            supportActionBar?.title = "Edit Note"
+            supportActionBar?.title = getString(R.string.update_note)
             header.setText(intent.getStringExtra(EXTRA_TITLE))
             body.setText(intent.getStringExtra(EXTRA_BODY))
         } else {
-            supportActionBar?.title = "Add Note"
+            supportActionBar?.title = getString(R.string.add_note)
         }
     }
 
@@ -37,7 +37,7 @@ class NewNoteActivity : AppCompatActivity() {
         val noteBody = body.text.toString()
 
         if (TextUtils.isEmpty(noteTitle) || TextUtils.isEmpty(noteBody)) {
-            Toasty.error(this, "Please leave no field empty.", Toast.LENGTH_SHORT).show()
+            Toasty.error(this, getString(R.string.invalid), Toast.LENGTH_SHORT).show()
             return
         }
 

@@ -26,8 +26,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="@string/notes_not_available_yet"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:text="@string/create_note"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:visibility="gone"
         app:drawableTopCompat="@drawable/ic_event_note" />
 

@@ -5,7 +5,19 @@
     <string name="delete_all">Delete all</string>
     <string name="save">Save</string>
     <string name="discard">Discard</string>
-    <string name="notes_not_available_yet">Notes not available yet</string>
-    <string name="search_note">Search note</string>
+    <string name="create_note">Click the + button below to take a note</string>
+    <string name="action_search">Search</string>
     <string name="date_time"><![CDATA[Date & time]]></string>
+    <string name="search_notes">Search your notes</string>
+    <string name="no_notes_to_delete">There are no notes to delete.</string>
+    <string name="confirmation">Are you really sure?</string>
+    <string name="all_notes_deleted">All notes deleted.</string>
+    <string name="saved">Note saved.</string>
+    <string name="update_failed">Failed to update note.</string>
+    <string name="updated">Note updated.</string>
+    <string name="deleted">Note deleted.</string>
+    <string name="undo">UNDO</string>
+    <string name="update_note">Update Note</string>
+    <string name="add_note">Add Note</string>
+    <string name="invalid">Please leave no field empty.</string>
 </resources>
