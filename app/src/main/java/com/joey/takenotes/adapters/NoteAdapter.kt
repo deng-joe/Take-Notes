@@ -12,18 +12,18 @@ import com.joey.takenotes.data.Note
 import com.joey.takenotes.utils.DateConverter
 import kotlinx.android.synthetic.main.model.view.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 class NoteAdapter internal constructor(
-    context: Context,
+    private val context: Context,
     private val itemClickListener: (Note) -> Unit
 ) :
     RecyclerView.Adapter<NoteAdapter.NotesViewHolder>(), Filterable {
-    private val inflater = LayoutInflater.from(context)
-    private var notes = emptyList<Note>()  // Cached copy of notes
-    private var filteredNotes = emptyList<Note>()
+    private var notes = arrayListOf<Note>()  // Cached copy of notes
+    var filteredNotes = arrayListOf<Note>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesViewHolder {
-        val itemView = inflater.inflate(R.layout.model, parent, false)
+        val itemView = LayoutInflater.from(context).inflate(R.layout.model, parent, false)
         return NotesViewHolder(itemView)
     }
 
@@ -59,16 +59,26 @@ class NoteAdapter internal constructor(
             }
 
             override fun publishResults(charSequence: CharSequence?, results: FilterResults?) {
-                filteredNotes = results?.values as List<Note>
+                filteredNotes = results?.values as ArrayList<Note>
                 notifyDataSetChanged()
             }
         }
     }
 
-    fun displayNotes(notes: List<Note>) {
+    fun displayNotes(notes: ArrayList<Note>) {
         this.notes = notes
         this.filteredNotes = notes
         notifyDataSetChanged()
+    }
+
+    fun removeNote(position: Int) {
+        filteredNotes.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+    fun restoreNote(note: Note, position: Int) {
+        filteredNotes.add(position, note)
+        notifyItemInserted(position)
     }
 
     inner class NotesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

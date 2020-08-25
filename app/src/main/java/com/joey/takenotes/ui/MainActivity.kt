@@ -13,18 +13,22 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.joey.takenotes.R
 import com.joey.takenotes.adapters.NoteAdapter
 import com.joey.takenotes.data.Note
 import com.joey.takenotes.data.NoteRoomDatabase
+import com.joey.takenotes.utils.SwipeToDeleteCallback
 import com.joey.takenotes.viewmodels.NoteViewModel
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
+import kotlin.collections.ArrayList
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SwipeToDeleteCallback.NoteItemTouchHelperListener {
     private lateinit var noteViewModel: NoteViewModel
     private lateinit var noteAdapter: NoteAdapter
 
@@ -41,17 +45,19 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         fab.setOnClickListener {
-            val intent = Intent(this@MainActivity, NewNoteActivity::class.java)
+            val intent = Intent(this, NewNoteActivity::class.java)
             startActivityForResult(intent, RC_ADD_NOTE)
         }
 
         initViews()
+
+        addItemTouchListener()
     }
 
     private fun initViews() {
         noteAdapter = NoteAdapter(this, onItemClickListener)
-        notes_view.adapter = noteAdapter
-        notes_view.layoutManager = LinearLayoutManager(this)
+        notes_recycler_view.adapter = noteAdapter
+        notes_recycler_view.layoutManager = LinearLayoutManager(this)
 
         // Get a new or existing ViewModel from the ViewModelProviders
         noteViewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
@@ -61,13 +67,21 @@ class MainActivity : AppCompatActivity() {
             // Update the cached copy of the notes in the adapter
             if (notes.isNotEmpty()) {
                 empty_view.visibility = View.GONE
-                notes_view.visibility = View.VISIBLE
-                noteAdapter.displayNotes(notes)
+                noteAdapter.displayNotes(notes as ArrayList<Note>)
             } else {
                 empty_view.visibility = View.VISIBLE
-                notes_view.visibility = View.GONE
             }
         })
+    }
+
+    private fun addItemTouchListener() {
+        val callback = SwipeToDeleteCallback(
+            this,
+            0,
+            ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT,
+            this
+        )
+        ItemTouchHelper(callback).attachToRecyclerView(notes_recycler_view)
     }
 
     override fun onDestroy() {
@@ -104,25 +118,22 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.del) {
             if (noteAdapter.itemCount == 0) {
-                Snackbar.make(
-                    findViewById(R.id.fab),
-                    "There are no notes to delete.",
-                    Snackbar.LENGTH_SHORT
-                ).show()
-            } else {
-                val builder = AlertDialog.Builder(this)
-                builder.setMessage("Delete all notes?")
-                builder.setCancelable(false)
-                builder.setPositiveButton("OK") { _, _ ->
+                Toasty.info(this, "There are no notes to delete.", Toast.LENGTH_SHORT).show()
+                return false
+            }
+
+            AlertDialog.Builder(this)
+                .setMessage("Delete all notes?")
+                .setCancelable(false)
+                .setPositiveButton("OK") { _, _ ->
                     noteViewModel.deleteAllNotes()
-                    Toasty.info(this, "All notes deleted.", Toast.LENGTH_SHORT).show()
+                    Toasty.success(this, "All notes deleted.", Toast.LENGTH_SHORT).show()
                 }
-                builder.setNegativeButton("Cancel") { dialog, _ ->
+                .setNegativeButton("Cancel") { dialog, _ ->
                     dialog.dismiss()
                 }
-                builder.show()
-                return true
-            }
+                .show()
+            return true
         }
 
         return super.onOptionsItemSelected(item!!)
@@ -157,6 +168,34 @@ class MainActivity : AppCompatActivity() {
                 noteViewModel.update(note)
                 Toasty.success(this, "Note updated.", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int, position: Int) {
+        if (viewHolder is NoteAdapter.NotesViewHolder) {
+            // Note to be swiped
+            val deletedNote = noteAdapter.filteredNotes[viewHolder.adapterPosition]
+            // Position of the note to be swiped
+            val deletedIndex = viewHolder.adapterPosition
+
+            // Remove note from RecyclerView
+            noteAdapter.removeNote(viewHolder.adapterPosition)
+
+            // Show Snackbar with option to undo note removal
+            Snackbar.make(coordinator, "Note deleted.", Snackbar.LENGTH_LONG)
+                .setAction("Undo") {
+                    // Restore the deleted note
+                    noteAdapter.restoreNote(deletedNote, deletedIndex)
+                }
+                .addCallback(object : Snackbar.Callback() {
+                    override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                        if (event == DISMISS_EVENT_TIMEOUT) {
+                            // Delete note from database
+                            noteViewModel.delete(deletedNote)
+                        }
+                    }
+                })
+                .show()
         }
     }
 
