@@ -4,6 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
 
+/**
+ * SQL queries on the notes.
+ * LiveData is used to observe data for any changes.
+ */
 @Dao
 interface NoteDao {
     @Insert(onConflict = REPLACE)

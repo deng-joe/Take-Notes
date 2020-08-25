@@ -15,15 +15,16 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class NoteAdapter internal constructor(
-    private val context: Context,
+    context: Context,
     private val itemClickListener: (Note) -> Unit
 ) :
     RecyclerView.Adapter<NoteAdapter.NotesViewHolder>(), Filterable {
+    private val inflater = LayoutInflater.from(context)
     private var notes = arrayListOf<Note>()  // Cached copy of notes
     var filteredNotes = arrayListOf<Note>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesViewHolder {
-        val itemView = LayoutInflater.from(context).inflate(R.layout.model, parent, false)
+        val itemView = inflater.inflate(R.layout.model, parent, false)
         return NotesViewHolder(itemView)
     }
 

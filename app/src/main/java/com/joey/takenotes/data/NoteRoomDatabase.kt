@@ -8,6 +8,9 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.joey.takenotes.utils.DateConverter
 
+/**
+ * Annotates class to be a Room Database with a table (entity) of the Note class.
+ */
 @Database(entities = [Note::class], version = 1, exportSchema = false)
 @TypeConverters(DateConverter::class)
 abstract class NoteRoomDatabase : RoomDatabase() {
@@ -15,6 +18,7 @@ abstract class NoteRoomDatabase : RoomDatabase() {
     abstract fun noteDao(): NoteDao
 
     companion object {
+        // Singleton (NoteRoomDatabase) prevents multiple instances of database opening at the same time
         @Volatile
         var INSTANCE: NoteRoomDatabase? = null
         private var DATABASE_NAME = "notes_database"
