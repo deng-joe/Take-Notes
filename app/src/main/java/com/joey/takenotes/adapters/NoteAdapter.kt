@@ -82,6 +82,11 @@ class NoteAdapter internal constructor(
         notifyItemInserted(position)
     }
 
+    fun clearData() {
+        filteredNotes.clear()
+        notifyDataSetChanged()
+    }
+
     inner class NotesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(note: Note) {

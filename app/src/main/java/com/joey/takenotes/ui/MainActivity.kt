@@ -127,6 +127,7 @@ class MainActivity : AppCompatActivity(), SwipeToDeleteCallback.NoteItemTouchHel
                 .setCancelable(false)
                 .setPositiveButton("OK") { _, _ ->
                     noteViewModel.deleteAllNotes()
+                    noteAdapter.clearData()
                     Toasty.success(this, "All notes deleted.", Toast.LENGTH_SHORT).show()
                 }
                 .setNegativeButton("Cancel") { dialog, _ ->

@@ -16,22 +16,14 @@ class NoteRepository(private val noteDao: NoteDao) {
     val allNotes: LiveData<List<Note>> = noteDao.getAllNotes()
 
     @WorkerThread
-    fun insert(note: Note) {
-        noteDao.insert(note)
-    }
+    fun insert(note: Note) = noteDao.insert(note)
 
     @WorkerThread
-    fun update(note: Note) {
-        noteDao.update(note)
-    }
+    fun update(note: Note) = noteDao.update(note)
 
     @WorkerThread
-    fun delete(note: Note) {
-        noteDao.delete(note)
-    }
+    fun delete(note: Note) = noteDao.delete(note)
 
     @WorkerThread
-    fun deleteAllNotes() {
-        noteDao.deleteAllNotes()
-    }
+    fun deleteAllNotes() = noteDao.deleteAllNotes()
 }
