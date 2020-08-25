@@ -20,7 +20,7 @@ class MainActivityTest {
 
     @Test
     fun checkViewDisplay() {
-        onView(withText(R.string.notes_not_available_yet)).check(matches(isDisplayed()))
+        onView(withText(R.string.create_note)).check(matches(isDisplayed()))
         onView(withId(R.id.fab)).check(matches(isDisplayed()))
     }
 }
