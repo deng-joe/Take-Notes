@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity(), SwipeToDeleteCallback.NoteItemTouchHel
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
 
-        val searchItem = menu?.findItem(R.id.search)
+        val searchItem = menu?.findItem(R.id.action_search)
         val searchView = searchItem?.actionView as SearchView
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         searchView.queryHint = getString(R.string.search_notes)
