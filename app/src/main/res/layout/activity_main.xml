@@ -8,17 +8,11 @@
     android:fitsSystemWindows="true"
     tools:context=".ui.MainActivity">
 
-    <ScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/notes_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/notes_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:listitem="@layout/model" />
-
-    </ScrollView>
+        android:layout_height="match_parent"
+        tools:listitem="@layout/model" />
 
     <TextView
         android:id="@+id/empty_view"
@@ -38,6 +32,8 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:elevation="6dp"
-        app:srcCompat="@drawable/ic_add" />
+        app:backgroundTint="@color/colorAccent"
+        app:srcCompat="@drawable/ic_add"
+        app:tint="@android:color/white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
