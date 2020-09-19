@@ -9,10 +9,9 @@ import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.joey.takenotes.R
 import com.joey.takenotes.data.Note
+import com.joey.takenotes.databinding.ViewModelBinding
 import com.joey.takenotes.utils.DateConverter
-import kotlinx.android.synthetic.main.model.view.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 class NoteAdapter internal constructor(
     context: Context,
@@ -24,7 +23,7 @@ class NoteAdapter internal constructor(
     var filteredNotes = arrayListOf<Note>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesViewHolder {
-        val itemView = inflater.inflate(R.layout.model, parent, false)
+        val itemView = inflater.inflate(R.layout.view_model, parent, false)
         return NotesViewHolder(itemView)
     }
 
@@ -89,10 +88,12 @@ class NoteAdapter internal constructor(
 
     inner class NotesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+        private val binding = ViewModelBinding.bind(itemView)
+
         fun bind(note: Note) {
-            itemView.titleView.text = note.title
-            itemView.bodyView.text = note.body
-            itemView.dateTime.text = DateConverter.dateFormat(note.date)
+            binding.titleView.text = note.title
+            binding.bodyView.text = note.body
+            binding.dateTime.text = DateConverter.dateFormat(note.date)
 
             itemView.setOnClickListener {
                 itemClickListener(filteredNotes[adapterPosition])

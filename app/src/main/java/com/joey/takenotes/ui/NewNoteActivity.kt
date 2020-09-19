@@ -9,14 +9,17 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.joey.takenotes.R
+import com.joey.takenotes.databinding.ActivityNewNoteBinding
 import es.dmoral.toasty.Toasty
-import kotlinx.android.synthetic.main.activity_new_note.*
 
 class NewNoteActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityNewNoteBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new_note)
+        binding=ActivityNewNoteBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         setBarTitle()
     }
@@ -25,16 +28,16 @@ class NewNoteActivity : AppCompatActivity() {
         val intent = intent
         if (intent != null && intent.hasExtra(EXTRA_ID)) {
             supportActionBar?.title = getString(R.string.update_note)
-            header.setText(intent.getStringExtra(EXTRA_TITLE))
-            body.setText(intent.getStringExtra(EXTRA_BODY))
+            binding.header.setText(intent.getStringExtra(EXTRA_TITLE))
+            binding.body.setText(intent.getStringExtra(EXTRA_BODY))
         } else {
             supportActionBar?.title = getString(R.string.add_note)
         }
     }
 
     private fun saveNote() {
-        val noteTitle = header.text.toString()
-        val noteBody = body.text.toString()
+        val noteTitle = binding.header.text.toString()
+        val noteBody = binding.body.text.toString()
 
         if (TextUtils.isEmpty(noteTitle) || TextUtils.isEmpty(noteBody)) {
             Toasty.error(this, getString(R.string.invalid), Toast.LENGTH_SHORT).show()
@@ -59,16 +62,16 @@ class NewNoteActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == R.id.save) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.save) {
             saveNote()
             return true
-        } else if (item?.itemId == R.id.discard) {
+        } else if (item.itemId == R.id.discard) {
             onBackPressed()
             return true
         }
 
-        return super.onOptionsItemSelected(item!!)
+        return super.onOptionsItemSelected(item)
     }
 
     companion object {

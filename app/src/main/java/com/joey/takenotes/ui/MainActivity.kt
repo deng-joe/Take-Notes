@@ -21,14 +21,16 @@ import com.joey.takenotes.R
 import com.joey.takenotes.adapters.NoteAdapter
 import com.joey.takenotes.data.Note
 import com.joey.takenotes.data.NoteRoomDatabase
+import com.joey.takenotes.databinding.ActivityMainBinding
 import com.joey.takenotes.utils.SwipeToDeleteCallback
 import com.joey.takenotes.viewmodels.NoteViewModel
 import es.dmoral.toasty.Toasty
-import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), SwipeToDeleteCallback.NoteItemTouchHelperListener {
+
+    private lateinit var binding: ActivityMainBinding
     private lateinit var noteViewModel: NoteViewModel
     private lateinit var noteAdapter: NoteAdapter
 
@@ -42,9 +44,10 @@ class MainActivity : AppCompatActivity(), SwipeToDeleteCallback.NoteItemTouchHel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        fab.setOnClickListener {
+        binding.fab.setOnClickListener {
             val intent = Intent(this, NewNoteActivity::class.java)
             startActivityForResult(intent, RC_ADD_NOTE)
         }
@@ -56,8 +59,8 @@ class MainActivity : AppCompatActivity(), SwipeToDeleteCallback.NoteItemTouchHel
 
     private fun initViews() {
         noteAdapter = NoteAdapter(this, onItemClickListener)
-        notes_recycler_view.adapter = noteAdapter
-        notes_recycler_view.layoutManager = LinearLayoutManager(this)
+        binding.notesRecyclerView.adapter = noteAdapter
+        binding.notesRecyclerView.layoutManager = LinearLayoutManager(this)
 
         // Get a new or existing ViewModel from the ViewModelProviders
         noteViewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
@@ -66,10 +69,10 @@ class MainActivity : AppCompatActivity(), SwipeToDeleteCallback.NoteItemTouchHel
         noteViewModel.allNotes.observe(this, { notes ->
             // Update the cached copy of the notes in the adapter
             if (notes.isNotEmpty()) {
-                empty_view.visibility = View.GONE
+                binding.emptyView.visibility = View.GONE
                 noteAdapter.displayNotes(notes as ArrayList<Note>)
             } else {
-                empty_view.visibility = View.VISIBLE
+                binding.emptyView.visibility = View.VISIBLE
             }
         })
     }
@@ -81,7 +84,7 @@ class MainActivity : AppCompatActivity(), SwipeToDeleteCallback.NoteItemTouchHel
             ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT,
             this
         )
-        ItemTouchHelper(callback).attachToRecyclerView(notes_recycler_view)
+        ItemTouchHelper(callback).attachToRecyclerView(binding.notesRecyclerView)
     }
 
     override fun onDestroy() {
@@ -115,8 +118,8 @@ class MainActivity : AppCompatActivity(), SwipeToDeleteCallback.NoteItemTouchHel
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == R.id.del) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.del) {
             if (noteAdapter.itemCount == 0) {
                 Toasty.info(this, getString(R.string.no_notes_to_delete), Toast.LENGTH_SHORT).show()
                 return false
@@ -137,7 +140,7 @@ class MainActivity : AppCompatActivity(), SwipeToDeleteCallback.NoteItemTouchHel
             return true
         }
 
-        return super.onOptionsItemSelected(item!!)
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -183,7 +186,7 @@ class MainActivity : AppCompatActivity(), SwipeToDeleteCallback.NoteItemTouchHel
             noteAdapter.removeNote(viewHolder.adapterPosition)
 
             // Show Snackbar with option to undo note removal
-            Snackbar.make(coordinator, getString(R.string.deleted), Snackbar.LENGTH_LONG)
+            Snackbar.make(binding.coordinator, getString(R.string.deleted), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.undo)) {
                     // Restore the deleted note
                     noteAdapter.restoreNote(deletedNote, deletedIndex)
