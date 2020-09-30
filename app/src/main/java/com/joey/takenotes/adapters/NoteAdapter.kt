@@ -125,7 +125,7 @@ class NoteAdapter internal constructor(
             binding.dateTime.text = DateConverter.dateFormat(note.date)
 
             itemView.setOnClickListener {
-                itemClickListener(filteredNotes[adapterPosition])
+                itemClickListener(filteredNotes[bindingAdapterPosition])
             }
 
             itemView.setOnLongClickListener { true }

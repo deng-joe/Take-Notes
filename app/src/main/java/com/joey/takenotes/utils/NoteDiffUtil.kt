@@ -3,6 +3,9 @@ package com.joey.takenotes.utils
 import androidx.recyclerview.widget.DiffUtil
 import com.joey.takenotes.data.Note
 
+/**
+ * Created by Joe on 9/30/2020.
+ */
 class NoteDiffUtil(
     private val oldNotes: List<Note>,
     private val newNotes: List<Note>

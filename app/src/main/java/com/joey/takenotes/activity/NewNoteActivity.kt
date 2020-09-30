@@ -25,11 +25,11 @@ class NewNoteActivity : AppCompatActivity() {
     }
 
     private fun setBarTitle() {
-        val intent = intent
-        if (intent != null && intent.hasExtra(EXTRA_ID)) {
+        val data = intent
+        if (data != null && data.hasExtra(EXTRA_ID)) {
             supportActionBar?.title = getString(R.string.update_note)
-            binding.header.setText(intent.getStringExtra(EXTRA_TITLE))
-            binding.body.setText(intent.getStringExtra(EXTRA_BODY))
+            binding.header.setText(data.getStringExtra(EXTRA_TITLE))
+            binding.body.setText(data.getStringExtra(EXTRA_BODY))
         } else {
             supportActionBar?.title = getString(R.string.add_note)
         }

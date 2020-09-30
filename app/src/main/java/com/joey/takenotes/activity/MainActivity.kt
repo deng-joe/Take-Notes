@@ -35,10 +35,11 @@ class MainActivity : AppCompatActivity(), SwipeToDeleteCallback.NoteItemTouchHel
     private lateinit var noteAdapter: NoteAdapter
 
     private val onItemClickListener: (Note) -> Unit = { note ->
-        val intent = Intent(this, NewNoteActivity::class.java)
-        intent.putExtra(NewNoteActivity.EXTRA_ID, note.id)
-        intent.putExtra(NewNoteActivity.EXTRA_TITLE, note.title)
-        intent.putExtra(NewNoteActivity.EXTRA_BODY, note.body)
+        val intent = Intent(this, NewNoteActivity::class.java).apply {
+            putExtra(NewNoteActivity.EXTRA_ID, note.id)
+            putExtra(NewNoteActivity.EXTRA_TITLE, note.title)
+            putExtra(NewNoteActivity.EXTRA_BODY, note.body)
+        }
         startActivityForResult(intent, RC_EDIT_NOTE)
     }
 
@@ -47,20 +48,27 @@ class MainActivity : AppCompatActivity(), SwipeToDeleteCallback.NoteItemTouchHel
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.fab.setOnClickListener {
-            val intent = Intent(this, NewNoteActivity::class.java)
-            startActivityForResult(intent, RC_ADD_NOTE)
-        }
-
         initViews()
 
         addItemTouchListener()
     }
 
     private fun initViews() {
+        binding.fab.setOnClickListener {
+            val intent = Intent(this, NewNoteActivity::class.java)
+            startActivityForResult(intent, RC_ADD_NOTE)
+        }
+
         noteAdapter = NoteAdapter(this, onItemClickListener)
-        binding.notesRecyclerView.adapter = noteAdapter
-        binding.notesRecyclerView.layoutManager = LinearLayoutManager(this)
+        binding.notesRecyclerView.apply {
+            setHasFixedSize(true)
+            adapter = noteAdapter
+            layoutManager = LinearLayoutManager(
+                this@MainActivity,
+                LinearLayoutManager.VERTICAL,
+                false
+            )
+        }
 
         // Get a new or existing ViewModel from the ViewModelProviders
         noteViewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
@@ -181,12 +189,13 @@ class MainActivity : AppCompatActivity(), SwipeToDeleteCallback.NoteItemTouchHel
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int, position: Int) {
         if (viewHolder is NoteAdapter.NotesViewHolder) {
             // Note to be swiped
-            val deletedNote = noteAdapter.filteredNotes[viewHolder.adapterPosition]
+            val deletedNote = noteAdapter.filteredNotes[viewHolder.bindingAdapterPosition]
+
             // Position of the note to be swiped
-            val deletedIndex = viewHolder.adapterPosition
+            val deletedIndex = viewHolder.bindingAdapterPosition
 
             // Remove note from RecyclerView
-            noteAdapter.removeNote(viewHolder.adapterPosition)
+            noteAdapter.removeNote(viewHolder.bindingAdapterPosition)
 
             // Show Snackbar with option to undo note removal
             Snackbar.make(binding.coordinator, getString(R.string.deleted), Snackbar.LENGTH_LONG)
