@@ -7,7 +7,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.joey.takenotes.ui.NewNoteActivity
+import com.joey.takenotes.activity.NewNoteActivity
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

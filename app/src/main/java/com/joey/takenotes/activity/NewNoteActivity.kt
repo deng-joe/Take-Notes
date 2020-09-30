@@ -1,4 +1,4 @@
-package com.joey.takenotes.ui
+package com.joey.takenotes.activity
 
 import android.app.Activity
 import android.content.Intent
@@ -18,7 +18,7 @@ class NewNoteActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding=ActivityNewNoteBinding.inflate(layoutInflater)
+        binding = ActivityNewNoteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setBarTitle()

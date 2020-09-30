@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.joey.takenotes.R
 import com.joey.takenotes.data.Note
 import com.joey.takenotes.databinding.ViewModelBinding
 import com.joey.takenotes.utils.DateConverter
+import com.joey.takenotes.utils.NoteDiffUtil
 import java.util.*
 
 class NoteAdapter internal constructor(
@@ -33,6 +35,9 @@ class NoteAdapter internal constructor(
         holder.bind(filteredNotes[position])
 
     @Suppress("UNCHECKED_CAST")
+    /**
+     * A function to filter notes for searching.
+     */
     override fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
@@ -65,22 +70,46 @@ class NoteAdapter internal constructor(
         }
     }
 
+    /**
+     * Aa function to add new notes.
+     */
+    fun addNotes(notes: ArrayList<Note>) {
+        val noteDiffUtil = NoteDiffUtil(filteredNotes, notes)
+        val diffResult = DiffUtil.calculateDiff(noteDiffUtil)
+
+        filteredNotes.clear()
+        filteredNotes.addAll(notes)
+
+        diffResult.dispatchUpdatesTo(this)
+    }
+
+    /**
+     * A function to display notes that match the search criteria.
+     */
     fun displayNotes(notes: ArrayList<Note>) {
         this.notes = notes
         this.filteredNotes = notes
-        notifyDataSetChanged()
     }
 
+    /**
+     * Remove note from its position.
+     */
     fun removeNote(position: Int) {
         filteredNotes.removeAt(position)
         notifyItemRemoved(position)
     }
 
+    /**
+     * Restore note to its previous position.
+     */
     fun restoreNote(note: Note, position: Int) {
         filteredNotes.add(position, note)
         notifyItemInserted(position)
     }
 
+    /**
+     * Clear all notes.
+     */
     fun clearData() {
         filteredNotes.clear()
         notifyDataSetChanged()

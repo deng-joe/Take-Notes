@@ -1,4 +1,4 @@
-package com.joey.takenotes.ui
+package com.joey.takenotes.activity
 
 import android.app.Activity
 import android.app.SearchManager
@@ -70,7 +70,10 @@ class MainActivity : AppCompatActivity(), SwipeToDeleteCallback.NoteItemTouchHel
             // Update the cached copy of the notes in the adapter
             if (notes.isNotEmpty()) {
                 binding.emptyView.visibility = View.GONE
-                noteAdapter.displayNotes(notes as ArrayList<Note>)
+                noteAdapter.apply {
+                    addNotes(notes as ArrayList<Note>)
+                    displayNotes(notes)
+                }
             } else {
                 binding.emptyView.visibility = View.VISIBLE
             }
