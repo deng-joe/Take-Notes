@@ -4,9 +4,9 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import androidx.test.rule.ActivityTestRule
 import com.joey.takenotes.ui.NewNoteActivity
 import org.junit.Rule
 import org.junit.Test
@@ -17,7 +17,7 @@ import org.junit.runner.RunWith
 class NewNoteActivityTest {
 
     @get:Rule
-    var newNoteRule: ActivityTestRule<NewNoteActivity> = ActivityTestRule(NewNoteActivity::class.java)
+    var rule = ActivityScenarioRule(NewNoteActivity::class.java)
 
     @Test
     fun checkViewDisplay() {
