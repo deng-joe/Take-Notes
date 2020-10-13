@@ -20,19 +20,18 @@ abstract class NoteRoomDatabase : RoomDatabase() {
     companion object {
         // Singleton (NoteRoomDatabase) prevents multiple instances of database opening at the same time
         @Volatile
-        var INSTANCE: NoteRoomDatabase? = null
-        private var DATABASE_NAME = "notes_database"
+        private var INSTANCE: NoteRoomDatabase? = null
 
         fun getInstance(context: Context): NoteRoomDatabase {
-            val temp = INSTANCE
-            if (temp != null) {
-                return temp
+            val tempInstance = INSTANCE
+            if (tempInstance != null) {
+                return tempInstance
             }
             synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     NoteRoomDatabase::class.java,
-                    DATABASE_NAME
+                    "notes_database"
                 )
                     .addMigrations(MIGRATION_1_2)
                     .build()

@@ -3,14 +3,12 @@ package com.joey.takenotes.viewmodels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
 import com.joey.takenotes.data.Note
 import com.joey.takenotes.data.NoteRoomDatabase
 import com.joey.takenotes.repositories.NoteRepository
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
 
 /**
  * Used to provide data to the UI and survive configuration changes.
@@ -25,29 +23,23 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
         allNotes = repository.allNotes
     }
 
-    private var job = Job()
-    private val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.Main
-    private val scope = CoroutineScope(coroutineContext)
+    /**
+     * Launch a new coroutine to insert, update or delete the notes in a non-blocking way.
+     */
 
-    fun insert(note: Note) = scope.launch(Dispatchers.IO) {
+    fun insert(note: Note) = viewModelScope.launch(Dispatchers.IO) {
         repository.insert(note)
     }
 
-    fun update(note: Note) = scope.launch(Dispatchers.IO) {
+    fun update(note: Note) = viewModelScope.launch(Dispatchers.IO) {
         repository.update(note)
     }
 
-    fun delete(note: Note) = scope.launch(Dispatchers.IO) {
+    fun delete(note: Note) = viewModelScope.launch(Dispatchers.IO) {
         repository.delete(note)
     }
 
-    fun deleteAllNotes() = scope.launch(Dispatchers.IO) {
+    fun deleteAllNotes() = viewModelScope.launch(Dispatchers.IO) {
         repository.deleteAllNotes()
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        job.cancel()
     }
 }
