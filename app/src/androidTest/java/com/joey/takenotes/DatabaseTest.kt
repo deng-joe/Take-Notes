@@ -21,7 +21,8 @@ class DatabaseTest {
     @Before
     fun createDb() {
         val context = InstrumentationRegistry.getInstrumentation().context
-        noteRoomDatabase = Room.inMemoryDatabaseBuilder(context, NoteRoomDatabase::class.java).build()
+        noteRoomDatabase =
+            Room.inMemoryDatabaseBuilder(context, NoteRoomDatabase::class.java).build()
         noteDao = noteRoomDatabase.noteDao()
     }
 
@@ -33,7 +34,7 @@ class DatabaseTest {
 
     @Test
     @Throws(Exception::class)
-    fun writeAndReadData() {
+    suspend fun writeAndReadData() {
         val date = Date()
         val note = Note("title", "body", date)
         noteDao.insert(note)
