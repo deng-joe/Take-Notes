@@ -48,8 +48,9 @@ class NewNoteActivity : AppCompatActivity() {
             putExtra(EXTRA_TITLE, noteTitle)
             putExtra(EXTRA_BODY, noteBody)
 
-            if (intent.getIntExtra(EXTRA_ID, -1) != -1) {
-                putExtra(EXTRA_ID, intent.getIntExtra(EXTRA_ID, -1))
+            val noteId = intent.getIntExtra(EXTRA_ID, -1)
+            if (noteId != -1) {
+                putExtra(EXTRA_ID, noteId)
             }
         }
 
