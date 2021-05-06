@@ -6,7 +6,7 @@ plugins {
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.joey.takenotes"
@@ -41,7 +41,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.core:core-ktx:1.6.0-alpha02'
+    implementation 'androidx.core:core-ktx:1.6.0-alpha03'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
@@ -64,11 +64,11 @@ dependencies {
     androidTestImplementation 'androidx.room:room-testing:2.3.0'
 
     // Paging
-    implementation 'androidx.paging:paging-runtime-ktx:2.1.2'
+    implementation 'androidx.paging:paging-runtime-ktx:3.0.0'
 
     // Coroutines
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3"
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3"
 
     // Toasty
     implementation 'com.github.GrenderG:Toasty:1.4.1'
